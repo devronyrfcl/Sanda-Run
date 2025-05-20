@@ -1,0 +1,366 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5448409758267934707
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7517054437658055782}
+  m_Layer: 0
+  m_Name: Biriyani Parent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7517054437658055782
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5448409758267934707}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.59, z: 7.897}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1211511131543280720}
+  - {fileID: 901844734652144031}
+  - {fileID: 8356174437790037837}
+  - {fileID: 3403059919611576625}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &240638136470098047
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7517054437658055782}
+    m_Modifications:
+    - target: {fileID: 4547722966906193266, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_Name
+      value: Biriyani Collectbales (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.8589997
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8680790335609007900, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: bd23aa666b7e10f488f5701977b81ff2,
+        type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8, type: 3}
+--- !u!4 &8356174437790037837 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+    type: 3}
+  m_PrefabInstance: {fileID: 240638136470098047}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6889359039907210755
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7517054437658055782}
+    m_Modifications:
+    - target: {fileID: 4547722966906193266, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_Name
+      value: Biriyani Collectbales (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4785649540386036906, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.1103074
+      objectReference: {fileID: 0}
+    - target: {fileID: 4785649540386036906, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1103074
+      objectReference: {fileID: 0}
+    - target: {fileID: 4785649540386036906, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.1103074
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8680790335609007900, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2411e74cced12b1478f4504efa6f33af,
+        type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8, type: 3}
+--- !u!4 &3403059919611576625 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+    type: 3}
+  m_PrefabInstance: {fileID: 6889359039907210755}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6949570481897569122
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7517054437658055782}
+    m_Modifications:
+    - target: {fileID: 4547722966906193266, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_Name
+      value: Biriyani Collectbales
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -5.736
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8, type: 3}
+--- !u!4 &1211511131543280720 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+    type: 3}
+  m_PrefabInstance: {fileID: 6949570481897569122}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8944725549199507117
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7517054437658055782}
+    m_Modifications:
+    - target: {fileID: 4547722966906193266, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_Name
+      value: Biriyani Collectbales (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.9129999
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8680790335609007900, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: af9c7ffc02dd6a84fa742ec020e388fd,
+        type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8, type: 3}
+--- !u!4 &901844734652144031 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8116035721260361522, guid: 4a96d4dfc42e43c48a5c90ecd0dda9c8,
+    type: 3}
+  m_PrefabInstance: {fileID: 8944725549199507117}
+  m_PrefabAsset: {fileID: 0}
