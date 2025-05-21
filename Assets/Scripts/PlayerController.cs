@@ -341,4 +341,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void Left()
+    {
+        currentLane--;
+    }
+    public void Right()
+    {
+        currentLane++;
+    }
+
+
 }
