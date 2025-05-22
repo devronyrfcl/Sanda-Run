@@ -349,6 +349,17 @@ public class PlayerController : MonoBehaviour
     {
         currentLane++;
     }
+    public void Jump()
+    {
+        isJumping = true;
+        verticalVelocity = jumpForce;
+        animator.SetTrigger("Jump");
+    }
 
+    public void Slide()
+    {
+        animator.SetTrigger("Slide");
+        StartCoroutine(SlideRoutine());
+    }
 
 }
