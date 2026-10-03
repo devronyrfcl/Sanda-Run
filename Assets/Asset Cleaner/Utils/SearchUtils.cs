@@ -56,7 +56,7 @@ namespace Asset_Cleaner {
 							bool Predicate(Object s) {
 								if (!s)
 									return false;
-								return s.GetInstanceID() != arg.Target.GetInstanceID();
+								return s.GetEntityId() != arg.Target.GetEntityId();
 							}
 
 							break;
@@ -157,7 +157,7 @@ namespace Asset_Cleaner {
 						throw new NotImplementedException();
 				}
 
-				miniTypeThumbnail = data.RootGo.GetInstanceID() == suspect.GetInstanceID()
+				miniTypeThumbnail = data.RootGo.GetEntityId() == suspect.GetEntityId()
 					? null
 					: AssetPreview.GetMiniThumbnail(suspect);
 			}
@@ -413,12 +413,12 @@ namespace Asset_Cleaner {
 			if (!suspect)
 				return false;
 
-			if (target.Target.GetInstanceID() == suspect.GetInstanceID() || target.Main.GetInstanceID() == (suspect).GetInstanceID())
+			if (target.Target.GetEntityId() == suspect.GetEntityId() || target.Main.GetEntityId() == (suspect).GetEntityId())
 				return true;
 
 			if (target.SubAssets.TryGet(out var subassets))
 				foreach (var asset in subassets) {
-					if (asset.GetInstanceID() == (suspect).GetInstanceID())
+					if (asset.GetEntityId() == (suspect).GetEntityId())
 						return true;
 				}
 
