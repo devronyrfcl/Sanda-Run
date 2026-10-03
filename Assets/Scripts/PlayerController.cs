@@ -1,13 +1,27 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(Animator), typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
+    [Header("Movement")]
+    public float forwardSpeed = 14f;
+    public float sprintSpeedMultiplier = 1.4f;
     public float laneDistance = 2.5f;
     public float laneChangeSpeed = 10f;
-    public float jumpForce = 7f;
+    public bool autoStart = true;               // false = wait for GameStart()
+
+    [Header("Jump / Gravity")]
+    public float jumpHeight = 1.5f;
+    public float gravity = -20f;
+    public Transform groundCheck;               // optional, falls back to CharacterController.isGrounded
+    public LayerMask groundLayer = ~0;
+    public float groundCheckRadius = 0.17f;
+
+    [Header("Slide")]
+    public float slideDuration = 0.8f;
 
     [Header("Speed Up UI")]
     public GameObject speedSliderParent;
@@ -18,15 +32,27 @@ public class PlayerController : MonoBehaviour
     public int maxHealth = 10;
     private int currentHealth;
 
-    public int currentLane = 1;
-    private float verticalVelocity = 0f;
-    private bool isJumping = false;
-    private bool isSliding = false;
+    [Header("State (read only)")]
+    public int currentLane = 1;                 // 0 = left, 1 = mid, 2 = right
+    public bool isGameOn;
+    public bool isGrounded;
+    public bool isSliding;
+
+    private float xPos;
+    private Vector3 velocity;
+    private float colHeight;
+    private float colCenterY;
+    private bool sprinting;
 
     private Animator animator;
     private CharacterController controller;
+    private HashSet<string> animParams;
 
     private Coroutine speedUpCoroutine;
+    private Coroutine slideCoroutine;
+
+    // Inputs queued by the public Left/Right/Jump/Slide methods (e.g. SwipeInputHandler)
+    private bool queuedLeft, queuedRight, queuedJump, queuedSlide;
 
     [Header("Effects")]
     public GameObject obstacleHitEffectPrefab;
@@ -40,19 +66,19 @@ public class PlayerController : MonoBehaviour
 
     public DialogueAudio DialogueAudio;
 
-
-
-
     void Start()
     {
         Time.timeScale = 1f;
         animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
 
-        // Set initial CharacterController size
-        SetColliderHeight(2f, 1f);
+        animParams = new HashSet<string>();
+        foreach (var p in animator.parameters)
+            animParams.Add(p.name);
 
-        animator.Play("Run");
+        colHeight = controller.height;
+        colCenterY = controller.center.y;
+        xPos = transform.position.x;
 
         if (speedSliderParent != null)
             speedSliderParent.SetActive(false);
@@ -60,98 +86,130 @@ public class PlayerController : MonoBehaviour
         currentHealth = maxHealth;
         UpdateHealthUI();
 
+        if (autoStart)
+            GameStart();
+    }
+
+    public void GameStart()
+    {
+        if (isGameOn)
+            return;
+
+        isGameOn = true;
+        SetTrigger("isGameStarted");
+
         if (stepSoundPlayer != null)
         {
             stepSoundPlayer.stepInterval = 0.4f; // Normal step interval
-            stepSoundPlayer.StartSteps();        // Start footsteps on start
+            stepSoundPlayer.StartSteps();
         }
 
-        DialogueAudio.PlayRandomDialogue1();
+        if (DialogueAudio != null)
+            DialogueAudio.PlayRandomDialogue1();
 
-        // Start calling PlayDialogue every 5–10 seconds randomly
-        Invoke("StartDialogueLoop", 1f);
+        // Start calling PlayDialogue every 5-10 seconds randomly
+        Invoke(nameof(StartDialogueLoop), 1f);
     }
 
     void Update()
     {
+        if (!isGameOn)
+            return;
+
         HandleInput();
         MovePlayer();
-
-        // Debug line for raycast visualization (optional)
-        Debug.DrawRay(transform.position + Vector3.up * 0.5f, transform.forward * 2f, Color.red);
     }
 
     void HandleInput()
     {
-        if (isSliding)
-            return;  // Ignore all input during slide (or at least lane changes)
+        bool left  = Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)  || SwipeManager.swipeLeft  || queuedLeft;
+        bool right = Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow) || SwipeManager.swipeRight || queuedRight;
+        bool up    = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space) || SwipeManager.swipeUp || queuedJump;
+        bool down  = Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)  || SwipeManager.swipeDown  || queuedSlide;
+        queuedLeft = queuedRight = queuedJump = queuedSlide = false;
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow) && currentLane > 0)
+        if (left && currentLane > 0)
             currentLane--;
-
-        if (Input.GetKeyDown(KeyCode.RightArrow) && currentLane < 2)
+        else if (right && currentLane < 2)
             currentLane++;
 
-        if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
+        if (isGrounded)
         {
-            isJumping = true;
-            verticalVelocity = jumpForce;
-            animator.SetTrigger("Jump");
+            if (up)
+                DoJump();
+            else if (down && !isSliding)
+                slideCoroutine = StartCoroutine(SlideRoutine());
         }
+        else if (down && !isSliding)
+        {
+            // Slam back down and slide on landing
+            slideCoroutine = StartCoroutine(SlideRoutine());
+            velocity.y = -10f;
+        }
+    }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
-        {
-            animator.SetTrigger("Slide");
-            StartCoroutine(SlideRoutine());
-        }
+    void DoJump()
+    {
+        EndSlide();
+        SetTrigger("jump");
+        velocity.y = Mathf.Sqrt(jumpHeight * 2f * -gravity);
     }
 
     IEnumerator SlideRoutine()
     {
         isSliding = true;
+        SetBool("isSliding", true);
 
-        // Change collider for sliding
-        SetColliderHeight(0f, 0.3f);
+        controller.center = new Vector3(0f, colCenterY / 2f, 0f);
+        controller.height = colHeight / 2f;
 
-        yield return new WaitForSeconds(2f); // Slide duration including reset delay
+        yield return new WaitForSeconds(slideDuration);
 
-        // Reset collider to original size
-        SetColliderHeight(2f, 1f);
+        EndSlide();
+    }
 
+    void EndSlide()
+    {
+        if (slideCoroutine != null)
+        {
+            StopCoroutine(slideCoroutine);
+            slideCoroutine = null;
+        }
+
+        if (controller != null)
+        {
+            controller.center = new Vector3(0f, colCenterY, 0f);
+            controller.height = colHeight;
+        }
+
+        SetBool("isSliding", false);
         isSliding = false;
     }
 
     void MovePlayer()
     {
-        Vector3 targetPosition = transform.position.z * Vector3.forward;
+        // Sideways: smooth towards the lane's X
+        float targetX = (currentLane - 1) * laneDistance;
+        xPos = Mathf.Lerp(xPos, targetX, laneChangeSpeed * Time.deltaTime);
 
-        if (currentLane == 0)
-            targetPosition += Vector3.left * laneDistance;
-        else if (currentLane == 2)
-            targetPosition += Vector3.right * laneDistance;
+        // Ground check
+        if (groundCheck != null)
+            isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundLayer, QueryTriggerInteraction.Ignore);
+        else
+            isGrounded = controller.isGrounded;
+        SetBool("isGrounded", isGrounded);
 
-        float xDiff = targetPosition.x - transform.position.x;
-        float xMove = xDiff * laneChangeSpeed;
+        // Gravity
+        if (isGrounded && velocity.y < 0f)
+            velocity.y = -1f;
+        else if (!isGrounded)
+            velocity.y += gravity * Time.deltaTime;
 
-        if (isJumping)
-            verticalVelocity += Physics.gravity.y * Time.deltaTime;
+        velocity.z = forwardSpeed * (sprinting ? sprintSpeedMultiplier : 1f);
 
-        Vector3 move = new Vector3(xMove, verticalVelocity, 0f);
-        controller.Move(move * Time.deltaTime);
-
-        if (isJumping && controller.isGrounded)
-        {
-            isJumping = false;
-            verticalVelocity = -1f;
-        }
-    }
-
-    void OnAnimatorMove()
-    {
-        Vector3 forwardMove = animator.deltaPosition;
-        forwardMove.x = 0f;
-        forwardMove.y = 0f;
-        controller.Move(forwardMove);
+        Vector3 move = velocity * Time.deltaTime;
+        move.x = xPos - transform.position.x;
+        controller.Move(move);
     }
 
     void OnTriggerEnter(Collider other)
@@ -178,7 +236,8 @@ public class PlayerController : MonoBehaviour
                 Instantiate(obstacleHitEffectPrefab, spawnPos, Quaternion.identity);
             }
 
-            DialogueAudio.PlayRandomDialogue4();
+            if (DialogueAudio != null)
+                DialogueAudio.PlayRandomDialogue4();
 
             Destroy(other.gameObject);
 
@@ -207,7 +266,8 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator SpeedUpRoutine()
     {
-        animator.SetBool("Sprint", true);
+        sprinting = true;
+        SetBool("Sprint", true);
 
         if (speedSliderParent != null)
             speedSliderParent.SetActive(true);
@@ -231,7 +291,8 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
-        animator.SetBool("Sprint", false);
+        sprinting = false;
+        SetBool("Sprint", false);
 
         if (speedSliderParent != null)
             speedSliderParent.SetActive(false);
@@ -265,9 +326,10 @@ public class PlayerController : MonoBehaviour
     private void Die()
     {
         Debug.Log("Player died!");
-        animator.SetTrigger("Die");
+        SetTrigger("Die");
         enabled = false; // Stop controller updates
-        DialogueAudio.PlayRandomDialogue3();
+        if (DialogueAudio != null)
+            DialogueAudio.PlayRandomDialogue3();
 
         // Stop time
         Time.timeScale = 0f;
@@ -303,15 +365,6 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
-    private void SetColliderHeight(float height, float centerY)
-    {
-        if (controller != null)
-        {
-            controller.height = height;
-            controller.center = new Vector3(0f, centerY, 0f);
-        }
-    }
-
     private IEnumerator ShowHeadStarsRoutine()
     {
         headStars.SetActive(true);
@@ -341,25 +394,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void Left()
+    // Public hooks (e.g. for on-screen buttons or SwipeInputHandler); processed on the next Update
+    public void Left()  { queuedLeft = true; }
+    public void Right() { queuedRight = true; }
+    public void Jump()  { queuedJump = true; }
+    public void Slide() { queuedSlide = true; }
+
+    // Only touch animator parameters that exist in the controller (DJ Alok has no Sprint / Die)
+    private void SetBool(string name, bool value)
     {
-        currentLane--;
-    }
-    public void Right()
-    {
-        currentLane++;
-    }
-    public void Jump()
-    {
-        isJumping = true;
-        verticalVelocity = jumpForce;
-        animator.SetTrigger("Jump");
+        if (animParams != null && animParams.Contains(name))
+            animator.SetBool(name, value);
     }
 
-    public void Slide()
+    private void SetTrigger(string name)
     {
-        animator.SetTrigger("Slide");
-        StartCoroutine(SlideRoutine());
+        if (animParams != null && animParams.Contains(name))
+            animator.SetTrigger(name);
     }
-
 }
